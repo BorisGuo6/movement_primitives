@@ -52,10 +52,15 @@ trajectory = start[np.newaxis] + T[:, np.newaxis] * (end[np.newaxis] - start[np.
 dt = 0.01
 execution_time = (n_steps - 1) * dt
 T = np.linspace(0, execution_time, n_steps)
+print(T.shape)
 Y = ptr.pqs_from_transforms(ptr.transforms_from_exponential_coordinates(trajectory))
+print(Y)
+print(Y.shape)
 dmp = CartesianDMP(execution_time=execution_time, dt=dt, n_weights_per_dim=10)
 dmp.imitate(T, Y)
 _, Y = dmp.open_loop()
+print(Y)
+print(Y.shape)
 
 trajectory = ptr.transforms_from_pqs(Y)
 
