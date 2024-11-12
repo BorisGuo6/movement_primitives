@@ -4,6 +4,7 @@
 Base classes of movement primitives."""
 import abc
 import numpy as np
+from .utils import check_1d_array_length
 
 
 class PointToPointMovement(abc.ABC):
@@ -100,26 +101,32 @@ class PointToPointMovement(abc.ABC):
 
         goal_ydd : array, shape (n_vel_dims,)
             Goal acceleration.
+
+        Raises
+        ------
+        ValueError
+            If the length of the configured meta parameter is not correct.
         """
         if t is not None:
             self.t = t
+
         if start_y is not None:
-            assert len(start_y) == self.n_dims, f"{len(start_y)}"
+            check_1d_array_length(start_y, "start_y", self.n_dims)
             self.start_y = start_y
         if start_yd is not None:
-            assert len(start_yd) == self.n_vel_dims, f"{len(start_yd)}"
+            check_1d_array_length(start_yd, "start_yd", self.n_vel_dims)
             self.start_yd = start_yd
         if start_ydd is not None:
-            assert len(start_ydd) == self.n_vel_dims, f"{len(start_ydd)}"
+            check_1d_array_length(start_ydd, "start_ydd", self.n_vel_dims)
             self.start_ydd = start_ydd
         if goal_y is not None:
-            assert len(goal_y) == self.n_dims, f"{len(goal_y)}"
+            check_1d_array_length(goal_y, "goal_y", self.n_dims)
             self.goal_y = goal_y
         if goal_yd is not None:
-            assert len(goal_yd) == self.n_vel_dims, f"{len(goal_yd)}"
+            check_1d_array_length(goal_yd, "goal_yd", self.n_vel_dims)
             self.goal_yd = goal_yd
         if goal_ydd is not None:
-            assert len(goal_ydd) == self.n_vel_dims, f"{len(goal_ydd)}"
+            check_1d_array_length(goal_ydd, "goal_ydd", self.n_vel_dims)
             self.goal_ydd = goal_ydd
 
     @abc.abstractmethod

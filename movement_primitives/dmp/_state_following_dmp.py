@@ -1,6 +1,7 @@
 import math
 import numpy as np
 from ._base import DMPBase, WeightParametersMixin
+from ..utils import ensure_1d_array
 from ._canonical_system import canonical_system_alpha, phase
 
 
@@ -25,18 +26,17 @@ class StateFollowingDMP(WeightParametersMixin, DMPBase):
        https://link.springer.com/chapter/10.1007/978-3-030-19648-6_32
     """
     def __init__(self, n_dims, execution_time, dt=0.01, n_viapoints=10,
-                 int_dt=0.001):
+                 int_dt=0.001, alpha_y=25.0, beta_y=6.25):
         super(StateFollowingDMP, self).__init__(n_dims, n_dims)
         self.execution_time = execution_time
         self.dt_ = dt
         self.n_viapoints = n_viapoints
         self.int_dt = int_dt
 
-        alpha_z = canonical_system_alpha(
-            0.01, self.execution_time, 0.0, self.int_dt)
+        alpha_z = canonical_system_alpha(0.01, self.execution_time, 0.0)
 
-        self.alpha_y = 25.0
-        self.beta_y = self.alpha_y / 4.0
+        self.alpha_y = ensure_1d_array(alpha_y, n_dims, "alpha_y")
+        self.beta_y = ensure_1d_array(beta_y, n_dims, "beta_y")
 
         self.forcing_term = StateFollowingForcingTerm(
             self.n_dims, self.n_viapoints, self.execution_time, 0.0, 0.1,
@@ -122,7 +122,7 @@ class StateFollowingForcingTerm:
 
     def __call__(self, t, int_dt=0.001):
         z = phase(t, alpha=self.alpha_z, goal_t=self.goal_t,
-                  start_t=self.start_t, int_dt=int_dt)
+                  start_t=self.start_t)
         z = np.atleast_1d(z)
         return self._activations(z, normalized=True).T
 

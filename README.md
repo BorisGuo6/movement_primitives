@@ -1,5 +1,6 @@
 ![CI](https://github.com/dfki-ric/movement_primitives/actions/workflows/python-package.yml/badge.svg)
 [![codecov](https://codecov.io/gh/dfki-ric/movement_primitives/branch/main/graph/badge.svg?token=EFHUC81DBL)](https://codecov.io/gh/dfki-ric/movement_primitives)
+[![Paper DOI](https://joss.theoj.org/papers/10.21105/joss.06695/status.svg)](https://doi.org/10.21105/joss.06695)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6491361.svg)](https://doi.org/10.5281/zenodo.6491361)
 
 # Movement Primitives
@@ -20,7 +21,7 @@ addition, the library provides tools for data analysis and movement evaluation.
 It can be installed directly from
 [PyPI](https://pypi.org/project/movement-primitives/).
 
-<img src="doc/source/_static/summary.png" width="100%" />
+<img src="https://raw.githubusercontent.com/dfki-ric/movement_primitives/main/doc/source/_static/summary.png" width="100%" />
 
 ## Content
 
@@ -34,19 +35,32 @@ It can be installed directly from
 * [Contributing](#contributing)
 * [Non-public Extensions](#non-public-extensions)
 * [Related Publications](#related-publications)
+* [Citation](#citation)
 * [Funding](#funding)
 
 ## Statement of Need
 
 Movement primitives are a common group of policy representations in robotics.
-Although movement primitives are limited in their capacity to represent
-behavior that takes into account complex sensor data during execution in
-comparison to general function approximators such as neural networks, several
-instances (e.g., dynamical movement primitives) have proven to be a reliable
-and effective tool in robot learning. A reliable tool deserves a similarly
-reliable implementation. However, there are only a few actively maintained,
-documented, and easy to use implementations. One of these is
-movement_primitives.
+They are able to represent complex movement patterns, allow temporal and
+spatial modification, offer stability guarantees, and are suitable for
+imitation learning without complicated hyperparameter tuning, which are
+advantages over general function approximators like neural networks. Movement
+primitives are white-box models for movement generation and allow to control
+several aspects of the movement. There are types of dynamical movement
+primitives that allow to directly control the goal in state space, the final
+velocity, or the relative pose of two robotic end-effectors. Probabilistic
+movement primitives capture distributions of movements adequately and allow
+conditioning in state space and blending of multiple movements. The main
+disadvantage of movement primitives in comparison to general function
+approximators is that they are limited in their capacity to represent behavior
+that takes into account complex sensor data during execution. Nevertheless,
+various types of movement primitives have proven to be a reliable and effective
+tool in robot learning. A reliable tool deserves a similarly reliable open
+source implementation. However, there are only a few actively maintained,
+documented, and easy to use implementations. One of these is the library
+*movement_primitives*. It combines several types of dynamical movement
+primitives and probabilistic movement primitives in a single library with
+a focus on Cartesian and bimanual movements.
 
 ## Features
 
@@ -75,24 +89,46 @@ installation. In the following instructions, we assume that the command
 `python` refers to Python 3. If you use the system's Python version, you
 might have to add the flag `--user` to any installation command.
 
-I recommend to install the library via pip:
+### PyPI (Recommended)
+
+I recommend to install the library via pip from the Python package index
+(PyPI):
 
 ```bash
 python -m pip install movement_primitives[all]
 ```
 
-or clone the git repository and install it in editable mode:
+If you don't want to have all dependencies installed, just omit `[all]`.
+
+This will install the latest release. If you want to install the latest
+development version, you have to install from git.
+
+### Git + Editable Mode
+
+Editable mode means that you don't have to install the library after editing
+the source code. Changes will be directly available in the installed library
+since pip creates a symlink.
+
+You can clone the git repository and install it in editable mode with pip:
 
 ```bash
+git clone https://github.com/dfki-ric/movement_primitives.git
 python -m pip install -e .[all]
 ```
 
 If you don't want to have all dependencies installed, just omit `[all]`.
-Alternatively, you can install dependencies with
+
+### Git
+
+Alternatively, you can install the library and its dependencies without pip
+from the git repository:
 
 ```bash
-python -m pip install -r requirements.txt
+git clone https://github.com/dfki-ric/movement_primitives.git
+python setup.py install
 ```
+
+### Build Cython Extension
 
 You could also just build the Cython extension with
 
@@ -100,10 +136,13 @@ You could also just build the Cython extension with
 python setup.py build_ext --inplace
 ```
 
-or install the library with
+### Dependencies
+
+An alternative way to install dependencies is the requirements.txt file in the
+main folder of the git repository:
 
 ```bash
-python setup.py install
+python -m pip install -r requirements.txt
 ```
 
 ## Examples
@@ -418,6 +457,32 @@ following papers.
      International Conference on International Conference on Machine Learning
      (ICML'10) (pp. 599-606). https://hal.inria.fr/inria-00475214/document
 
+## Citation
+
+If you use `movement_primitives` for a scientific publication, I would
+appreciate citation of the following paper:
+
+Fabisch, A., (2024). movement_primitives: Imitation Learning of Cartesian
+Motion with Movement Primitives. Journal of Open Source Software, 9(97), 6695,
+[![Paper DOI](https://joss.theoj.org/papers/10.21105/joss.06695/status.svg)](https://doi.org/10.21105/joss.06695)
+
+Bibtex entry:
+
+```bibtex
+@article{Fabisch2024,
+  doi = {10.21105/joss.06695},
+  url = {https://doi.org/10.21105/joss.06695},
+  year = {2024},
+  publisher = {The Open Journal},
+  volume = {9},
+  number = {97},
+  pages = {6695},
+  author = {Alexander Fabisch},
+  title = {movement_primitives: Imitation Learning of Cartesian Motion with Movement Primitives},
+  journal = {Journal of Open Source Software}
+}
+```
+
 ## Funding
 
 This library has been developed initially at the
@@ -427,3 +492,8 @@ Bremen. At this phase the work was supported through a grant of the German
 Federal Ministry of Economic Affairs and Energy (BMWi, FKZ 50 RA 1701).
 
 <img src="https://raw.githubusercontent.com/dfki-ric/movement_primitives/main/doc/source/_static/DFKI_Logo.jpg" height="150px" /><img src="https://raw.githubusercontent.com/dfki-ric/movement_primitives/main/doc/source/_static/241-logo-bmwi-jpg.jpg" height="150px" />
+
+```{toctree}
+:hidden:
+api
+```

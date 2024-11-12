@@ -8,7 +8,7 @@ from movement_primitives.dmp._canonical_system import canonical_system_alpha
 def test_compare_python_cython():
     from movement_primitives.dmp._dual_cartesian_dmp import dmp_step_dual_cartesian_python
     from movement_primitives.dmp_fast import dmp_step_dual_cartesian as dmp_step_dual_cartesian_cython
-    alpha_z = canonical_system_alpha(0.01, 2.0, 0.0, 0.001)
+    alpha_z = canonical_system_alpha(0.01, 2.0, 0.0)
     forcing_term = ForcingTerm(12, 10, 2.0, 0.0, 0.8, alpha_z)
     kwargs = dict(
         last_t=1.999, t=2.0,
@@ -18,7 +18,9 @@ def test_compare_python_cython():
         goal_yd=np.zeros([12]), goal_ydd=np.zeros([12]),
         start_y=np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
         start_yd=np.zeros([12]), start_ydd=np.zeros([12]),
-        goal_t=2.0, start_t=0.0, alpha_y=25.0, beta_y=6.25,
+        goal_t=2.0, start_t=0.0, 
+        alpha_y=25.0 * np.ones(12), 
+        beta_y=6.25 * np.ones(12),
         forcing_term=forcing_term, coupling_term=None, int_dt=0.0001,
         p_gain=0.0, tracking_error=None
     )
